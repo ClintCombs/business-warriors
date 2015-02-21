@@ -48,7 +48,7 @@ extends SimpleRoutingApp with Metrics with JsonRendering {
             respondWithMediaType(`application/json`) {
               complete {
                 val productInventory = List("123", "321", "456") map { sku =>
-                  val product = Product(sku = "321", name = s"p-321", price = 10.00)
+                  val product = Product(sku = sku, name = s"p-$sku", price = 10.00)
                   ProductInventory(product = product, quantity = 3)
                 }
                 HttpResponse(OK, renderInventoryList(productInventory: _*))
@@ -74,7 +74,7 @@ extends SimpleRoutingApp with Metrics with JsonRendering {
             respondWithMediaType(`application/json`) {
               complete {
                 val products = List("123", "321", "456") map { sku =>
-                  Product(sku = "321", name = s"p-321", price = 10.00)
+                  Product(sku = sku, name = s"p-$sku", price = 10.00)
                 }
                 HttpResponse(OK, renderProducts(products: _*))
               }
