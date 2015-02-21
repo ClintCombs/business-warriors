@@ -95,7 +95,7 @@ extends SimpleRoutingApp with Metrics with JsonRendering with ActorPaths {
                 for { response <- (catalogActor ? GetProduct(sku)).mapTo[GetProductResponse] } yield {
                   response.product match {
                     case Some(p) => HttpResponse(OK, renderProduct(p))
-                    case None => HttpResponse(NotFound, s"""{ "error": ${response.sku} not found" }""")
+                    case None => HttpResponse(NotFound, s"""{ "error": "${response.sku} not found" }""")
                   }
                 }
               }
