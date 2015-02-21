@@ -3,6 +3,7 @@ package buswarriors
 
 import akka.actor.ActorSystem
 import akka.event.Logging
+import buswarriors.actors.BusinessWarriorActors
 import buswarriors.metrics.Jmx
 import com.codahale.metrics.MetricRegistry
 
@@ -25,6 +26,8 @@ object BusinessWarriors extends App {
     logger.info("starting JMX metrics...")
     new Jmx(registry).start()
     logger.info("JMX metrics up and running.")
+
+    BusinessWarriorActors.build()
 
     logger.info("Starting HTTP service...")
     val serverPort = 9812
