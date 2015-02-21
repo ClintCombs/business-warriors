@@ -1,6 +1,6 @@
 # business-warriors
 
-Business Warriors implemented in Scala, Akka, and spray.io.
+Business Wars implemented in Scala, Akka, and spray.io.
 
 ## build
 
