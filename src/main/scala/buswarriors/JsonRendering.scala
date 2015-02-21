@@ -9,7 +9,14 @@ import org.json4s.jackson.Serialization.{read, write}
 
 trait JsonRendering extends Json4sJacksonSupport {
 
-  implicit override def json4sJacksonFormats = DefaultFormats
+  import FieldSerializer._
+
+  val productInventorySerializer =
+    FieldSerializer[ProductInventory](renameTo("quantity", "qty"))
+  val transactionSerializer =
+    FieldSerializer[Transaction](renameTo("quantity", "qty"))
+
+  implicit override def json4sJacksonFormats = DefaultFormats + productInventorySerializer
 
   def renderRoot: String = {
     pretty(("system" -> "business-warriors"))
