@@ -16,11 +16,11 @@ trait JsonRendering extends Json4sJacksonSupport {
   val transactionSerializer =
     FieldSerializer[Transaction](renameTo("quantity", "qty"))
 
-  implicit override def json4sJacksonFormats =
+  implicit override def json4sJacksonFormats: Formats =
     DefaultFormats + productInventorySerializer + transactionSerializer
 
   def renderRoot: String = {
-    pretty(("system" -> "business-warriors"))
+    pretty("system" -> "business-warriors")
   }
 
   def renderProduct(p: Product): String = {
