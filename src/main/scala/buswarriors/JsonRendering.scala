@@ -26,7 +26,8 @@ trait JsonRendering extends Json4sJacksonSupport {
         case JObject(
             JField("sku", JString(s)) :: JField("name", JString(n)) ::
               JField("price", JDecimal(p)) :: JField("qty", JInt(q)) :: Nil) =>
-          ProductInventory(Product(s, n, p), q) },
+          ProductInventory(Product(s, n, p), q)
+      },
       {
         case pi: ProductInventory =>
           JObject(
