@@ -49,7 +49,7 @@ trait JsonRendering extends Json4sJacksonSupport {
     write(p)
   }
 
-  def renderProducts(products: Product *): String = {
+  def renderProducts(products: Seq[Product]): String = {
     write(products)
   }
 

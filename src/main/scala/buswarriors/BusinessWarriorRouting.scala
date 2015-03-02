@@ -5,6 +5,7 @@ import akka.actor.ActorSystem
 import akka.event.Logging
 import akka.util.Timeout
 import buswarriors.actors.{GetProductResponse, GetProduct, ActorPaths}
+import buswarriors.catalog.Catalog
 import buswarriors.metrics.Metrics
 import com.codahale.metrics.MetricRegistry
 import spray.http.HttpResponse
@@ -15,7 +16,7 @@ import spray.http.MediaTypes._
 import akka.pattern.ask
 import scala.concurrent.duration._
 
-class BusinessWarriorRouting(val registry: MetricRegistry, val serverPort: Int)(implicit system: ActorSystem)
+class BusinessWarriorRouting(val registry: MetricRegistry, val serverPort: Int, catalog: Catalog)(implicit system: ActorSystem)
 extends SimpleRoutingApp with Metrics with JsonRendering with ActorPaths {
 
   implicit val dispatcher = system.dispatcher
@@ -74,15 +75,12 @@ extends SimpleRoutingApp with Metrics with JsonRendering with ActorPaths {
           }
         }
       } ~
-      pathPrefix("products") {
+      pathPrefix("catalog") {
         pathEndOrSingleSlash {
           get {
             respondWithMediaType(`application/json`) {
               complete {
-                val products = List("123", "321", "456") map { sku =>
-                  Product(sku = sku, name = s"p-$sku", price = 10.00)
-                }
-                HttpResponse(OK, renderProducts(products: _*))
+                HttpResponse(OK, renderProducts(catalog.allProducts))
               }
             }
           }
