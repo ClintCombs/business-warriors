@@ -5,12 +5,17 @@ package object buswarriors {
 
   type TransactionId = String
 
-  implicit class Quantity(val q: Int) { require(q >= 0, s"${q} is less than zero") }
+  case class Quantity(val q: Int) { require(q >= 0, s"${q} is less than zero") }
 
-  implicit def quantity(q: BigInt) = Quantity(q.toInt)
+  implicit def quantity(q: Int) = Quantity(q)
+  implicit def quantity(q: BigInt) = new Quantity(q.toInt)
 
-  implicit class Price(val p: BigDecimal) { require(p >= 0.0, s"${p} is less than zero") }
+  case class Price(val p: BigDecimal) {
+    override def toString(): String = p.toString()
+    require(p >= 0.0, s"${p} is less than zero")
+  }
 
+  implicit def price(d: BigDecimal) = Price(d)
   implicit def price(d: Double) = Price(BigDecimal(d))
 
   case class Product(sku: SKU, name: String, price: Price) {
